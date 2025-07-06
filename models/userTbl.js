@@ -34,11 +34,11 @@ const userSchema = mongoose.Schema({
         required:true
     },
     aboutme:{
-        type:Number,
+        type:String,
         required:true
     },
     photo:{
-        type:Number,
+        type:String,
         required:true
     },
 })

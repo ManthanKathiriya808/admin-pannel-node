@@ -8,7 +8,7 @@ const tables = async (req,res)=>{
     
     try {
         
-        const user = await userTbl.find()
+        const user = await userTbl.find({})
       return  res.render("tables",{
             user
         })
@@ -29,10 +29,50 @@ const signup = (req,res)=>{
     
     res.render("sign-up")
 }
-
-
-const insertdata = async (req,res)=>{
+const deleteUser = async (req,res)=>{
     
+   const id = req.params.id
+
+   try {
+
+    const deleteuser = await userTbl.findByIdAndDelete(id)
+
+    return res.redirect("/pages/tables")
+
+   } catch (error) {
+    console.log(error)
+    return false
+   }
+
+}
+
+const updateUser = async (req,res)=>{
+    
+   const id = req.params.id
+
+   try {
+    const user = await userTbl.findById(id)
+
+    if(!user){
+        return res.redirect("/pages/tables")
+    }
+
+    res.render("updateprofile",{
+        user
+    })
+
+   } catch (error) {
+    console.log(error)
+    return false
+   }
+
+}
+
+
+const insertData = async (req,res)=>{
+    
+    const {username,email,password,age,address,city,country,pincode,aboutme} = req.body
+    let photo = req.file.path
     try {
         
     const user = await userTbl.create({
@@ -47,8 +87,10 @@ const insertdata = async (req,res)=>{
         aboutme,
         photo
     })
+ 
+    console.log(" data added successfully")
 
-    return res.redirect("/pages/tables")
+     res.redirect("/pages/tables")
 
 
 
@@ -60,4 +102,4 @@ const insertdata = async (req,res)=>{
 }
 
 
-module.exports = {home,tables,profile,signin,signup,insertdata}
+module.exports = {home,tables,profile,signin,signup,insertData,deleteUser,updateUser}

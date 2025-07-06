@@ -1,15 +1,16 @@
 const multer = require("multer")
 
-const newPhoto = multer.diskStorage({
-    destination:(req,res,cb)=>{
+const newImage = multer.diskStorage({
+    destination:function(req,file,cb){
         cb(null,"uploads/")
     },
-    filename:(req,file,cb)=>{
-        cb,(null,file.originalname)
+  filename:function(req,file,cb){
+        cb(null,file.originalname)
     }
 })
 
 
-const photos = multer({storage:newPhoto}).single("photo")
+const photos =  multer({storage:newImage}).single("photo")
+
 
 module.exports = photos

@@ -7,7 +7,7 @@ const userTbl = require("./models/userTbl")
 const multer = require("multer")
 app.set("view engine", "ejs")
 
-app.use(express.urlencoded())
+app.use(express.urlencoded({ extended: true }))
 
 app.use("/",express.static(path.join(__dirname,"/public")))
 app.use("/uploads",express.static(path.join(__dirname,"/uploads")))
