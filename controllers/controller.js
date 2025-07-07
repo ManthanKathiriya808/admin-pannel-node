@@ -57,9 +57,7 @@ const updateUser = async (req,res)=>{
         return res.redirect("/pages/tables")
     }
 
-    res.render("updateprofile",{
-        user
-    })
+    res.render("updateprofile")
 
    } catch (error) {
     console.log(error)
