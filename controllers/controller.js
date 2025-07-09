@@ -1,5 +1,5 @@
 const userTbl = require("../models/userTbl")
-
+const fs = require("fs")
 const home = (req,res)=>{
     
     res.render("index")
@@ -48,7 +48,7 @@ const deleteUser = async (req,res)=>{
 
 const updateUser = async (req,res)=>{
     
-   const id = req.params.id
+   const id = req.query.id
 
    try {
     const user = await userTbl.findById(id)
@@ -57,12 +57,60 @@ const updateUser = async (req,res)=>{
         return res.redirect("/pages/tables")
     }
 
-    res.render("updateprofile")
+    res.render("updateprofile",{
+        user
+    })
 
    } catch (error) {
     console.log(error)
     return false
    }
+
+}
+const updatedata = async (req,res)=>{
+    
+ const {id,username,email,password,age,address,city,country,pincode,aboutme} = req.body
+    
+ try {
+    
+    const user = await userTbl.findById(id)
+    if(!user){
+        return res.redirect("/pages/tables")
+    }
+
+    const updateUser = {
+        username,
+        email,
+        password,
+        age,
+        address,
+        city,
+        country,
+        pincode,
+        aboutme,
+       
+    }
+
+    if(req.file){
+        if(user.photo && fs.existsSync(user.photo)){
+            fs.unlinkSync(user.photo)
+        }
+
+        updateUser.photo = req.file.path
+    }
+
+    await userTbl.findByIdAndUpdate(id,updateUser)
+    console.log("✅ Movie updated successfully");
+
+        res.redirect("/pages/tables");
+
+
+
+ } catch (error) {
+    console.log(error)
+    return false
+ }
+
 
 }
 
@@ -100,4 +148,4 @@ const insertData = async (req,res)=>{
 }
 
 
-module.exports = {home,tables,profile,signin,signup,insertData,deleteUser,updateUser}
+module.exports = {home,tables,profile,signin,signup,insertData,deleteUser,updateUser,updatedata}
