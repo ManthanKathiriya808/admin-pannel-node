@@ -12,6 +12,7 @@ routes.get("/pages/tables/delete/:id",controller.deleteUser)
 routes.get("/pages/update",photo,controller.updateUser)
 routes.post("/insertdata",photo,controller.insertData)
 routes.post("/updatedata",photo,controller.updatedata)
+routes.post("/signindata",controller.signindata)
 
 
 module.exports = routes

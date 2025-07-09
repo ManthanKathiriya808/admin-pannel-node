@@ -147,5 +147,9 @@ const insertData = async (req,res)=>{
 
 }
 
+const signindata = (req,res)=>{
+    console.log(req.body)
+}
 
-module.exports = {home,tables,profile,signin,signup,insertData,deleteUser,updateUser,updatedata}
+
+module.exports = {home,tables,profile,signin,signup,insertData,deleteUser,updateUser,updatedata,signindata}
