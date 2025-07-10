@@ -153,3 +153,5 @@ const signindata = (req,res)=>{
 
 
 module.exports = {home,tables,profile,signin,signup,insertData,deleteUser,updateUser,updatedata,signindata}
+
+// comment added
