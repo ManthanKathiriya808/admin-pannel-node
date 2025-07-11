@@ -147,21 +147,15 @@ const insertData = async (req,res)=>{
 
 }
 
-const signindata =async (req,res)=>{
+const signindata = (req,res)=>{
  
 
-    try{
-        if(req.body.email && req.body.password){
-            
-        const user = await userTbl.findOne({email:req.body.email})
-        console.log(user) 
-        res.cookie("user",user)
+console.log(req.user)
 
-        }
-    }catch(err){
-        console.log(err)
-         return res.redirect("/")
-        return false
+ if(req.user){
+        return res.redirect("/")
+    }else{
+        return res.render("sign-in")
     }
 
 }
