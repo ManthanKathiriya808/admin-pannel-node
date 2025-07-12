@@ -14,5 +14,5 @@ routes.post("/insertdata",photo,controller.insertData)
 routes.post("/updatedata",photo,controller.updatedata)
 routes.post("/signindata",controller.signindata)
 
-
+// zzxc
 module.exports = routes
