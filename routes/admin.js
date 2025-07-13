@@ -12,6 +12,9 @@ routes.get("/pages/tables/delete/:id",controller.deleteUser)
 routes.get("/pages/update",passport.isAuth,photo,controller.updateUser)
 routes.post("/insertdata",passport.isAuth,photo,controller.insertData)
 routes.post("/updatedata",photo,controller.updatedata)
+routes.get("/logout",controller.logout)
+routes.get("/pages/myinfo",passport.isAuth,controller.myinfo)
+routes.get("/pages/changepass",passport.isAuth,controller.changepass)
 routes.post("/signindata",passport.authenticate("local", {failureRedirect:'/pages/sign-in'}),controller.signindata)
 
 // zzxc

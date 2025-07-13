@@ -100,7 +100,7 @@ const updatedata = async (req,res)=>{
     }
 
     await userTbl.findByIdAndUpdate(id,updateUser)
-    console.log("✅ Movie updated successfully");
+    console.log("✅ user updated successfully");
 
         res.redirect("/pages/tables");
 
@@ -150,7 +150,6 @@ const insertData = async (req,res)=>{
 const signindata = (req,res)=>{
  
 
-console.log(req.user)
 
  if(req.user){
         return res.redirect("/")
@@ -161,6 +160,61 @@ console.log(req.user)
 }
 
 
-module.exports = {home,tables,profile,signin,signup,insertData,deleteUser,updateUser,updatedata,signindata}
+const logout = (req,res)=>{
 
-// comment added
+    req.session.destroy(function(err){
+        if(err){
+            console.log(err)
+            return res.redirect("/")
+        }
+        return res.redirect("/pages/sign-in")
+    })
+}
+
+const myinfo = async (req,res)=>{
+
+    const userId = req.session.passport.user;
+
+    try {
+        
+        const user = await userTbl.findById(userId);
+
+        if(!user){
+            console.log("User not found");
+            return res.redirect("/pages/sign-in");
+        }
+
+        res.render("myinfo", {
+            user
+        });
+    } catch (error) {
+        console.log(err)
+        return false
+    }
+
+}
+const changepass = async (req,res)=>{
+
+    const userId = req.session.passport.user;
+
+    try {
+        
+        const user = await userTbl.findById(userId);
+
+        if(!user){
+            console.log("User not found");
+            return res.redirect("/pages/sign-in");
+        }
+
+        res.render("changepassword", {
+            user
+        });
+    } catch (error) {
+        console.log(err)
+        return false
+    }
+}
+
+
+module.exports = {changepass,home,tables,profile,signin,signup,insertData,deleteUser,updateUser,updatedata,signindata,logout,myinfo}
+

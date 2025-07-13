@@ -1,6 +1,6 @@
 const passport = require("passport")
 
-const localStrategy  = require("passport-local")
+const localStrategy  = require("passport-local")     
 const userTbl = require("../models/userTbl")
 
 

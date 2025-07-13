@@ -19,11 +19,12 @@ app.use(cookieParser())
 
 app.use(session({
     name:"admin",
-    secret:"secret",
+    secret:"keyboard kat",
     resave:false,
-    saveUninitialized:true,
+    saveUninitialized:false,
+    proxy: true,
     cookie:{
-        maxAge:1000*60*60
+        maxAge:1000*60*60*24
     }
 }))
 
@@ -34,9 +35,6 @@ app.use(passport.userAuth)
 
 app.use("/", require("./routes/admin"))
 
-
-
-
 app.listen(port,(err)=>{
     if(err){
         console.log(err)
@@ -45,3 +43,6 @@ app.listen(port,(err)=>{
 
     console.log("Server is running at port " + port)
 })
+
+
+
