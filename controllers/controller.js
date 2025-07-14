@@ -152,7 +152,7 @@ const signindata = (req,res)=>{
 
 
  if(req.user){
-        return res.redirect("/")
+        return res.redirect("/dashboard")
     }else{
         return res.render("sign-in")
     }
@@ -165,9 +165,9 @@ const logout = (req,res)=>{
     req.session.destroy(function(err){
         if(err){
             console.log(err)
-            return res.redirect("/")
+            return res.redirect("/dashboard")
         }
-        return res.redirect("/pages/sign-in")
+        return res.redirect("/")
     })
 }
 
@@ -181,7 +181,7 @@ const myinfo = async (req,res)=>{
 
         if(!user){
             console.log("User not found");
-            return res.redirect("/pages/sign-in");
+            return res.redirect("/");
         }
 
         res.render("myinfo", {
@@ -203,7 +203,7 @@ const changepass = async (req,res)=>{
 
         if(!user){
             console.log("User not found");
-            return res.redirect("/pages/sign-in");
+            return res.redirect("/");
         }
 
         res.render("changepassword", {
@@ -214,7 +214,37 @@ const changepass = async (req,res)=>{
         return false
     }
 }
+const changepassword = async (req,res)=>{
+
+    // const userId = req.session.passport.user;
+  
+
+    try {
+        
+        if(!req.body.oldpass || !req.body.newpass || !req.body.confpass){
+            console.log("All fields are required");
+            return res.redirect("/pages/changepass");
+        }
+
+        if(req.body.oldpass !== req.body.newpass){
+            if(req.body.newpass === req.body.confpass){
+                const userid = req.session.passport.user
+                const user = await userTbl.findByIdAndUpdate(userid,{password : req.body.newpass})
+                return res.redirect("/pages/changepass");
+            }
+
+        }
+        else{
+            console.log("both password are same")
+            return res.redirect("/pages/changepass");
+        }
+
+    } catch (error) {
+        console.log(err)
+        return false
+    }
+}
 
 
-module.exports = {changepass,home,tables,profile,signin,signup,insertData,deleteUser,updateUser,updatedata,signindata,logout,myinfo}
+module.exports = {changepassword,changepass,home,tables,profile,signin,signup,insertData,deleteUser,updateUser,updatedata,signindata,logout,myinfo}
 
