@@ -17,6 +17,9 @@ routes.get("/pages/myinfo",passport.isAuth,controller.myinfo)
 routes.get("/pages/changepass",passport.isAuth,controller.changepass)
 routes.post("/changepassword",controller.changepassword)
 routes.post("/signindata",passport.authenticate("local", {failureRedirect:'/'}),controller.signindata)
+routes.get("/forgotpass",controller.forgotpass)
+routes.get("/otp",controller.otp)
+routes.post("/forgotpass",controller.forgotpassword)
 
 // zzxc
 module.exports = routes

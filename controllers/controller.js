@@ -1,5 +1,6 @@
 const userTbl = require("../models/userTbl")
 const fs = require("fs")
+const nodemailer = require("nodemailer");
 const home = (req,res)=>{
     
     res.render("index")
@@ -246,5 +247,81 @@ const changepassword = async (req,res)=>{
 }
 
 
-module.exports = {changepassword,changepass,home,tables,profile,signin,signup,insertData,deleteUser,updateUser,updatedata,signindata,logout,myinfo}
+
+const forgotpass = (req,res)=>{
+
+    try {
+        return res.render("forgotpassword")
+    } catch (error) {
+        console.log(error)
+        return res.redirect("/forgotpass")
+    }
+}
+
+const forgotpassword = async (req,res)=>{
+
+   
+
+
+    try {
+
+        if(req.body.email){
+            
+            const user = await userTbl.findOne({email : req.body.email})
+            if(user){
+                let otp = Math.round(Math.random()*9999)
+
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false, 
+  auth: {
+    user: "manthankathiriya808@gmail.com",
+    pass: "jn7jnAPss4f63QBp6D",
+  },
+});
+
+
+  const info = await transporter.sendMail({
+    from: '"Admin pannel " <manthankathiriya808@gmail.com>',
+    to: req.body.email,
+    subject: "Lost Password Otp",
+    text: "OTP", 
+    html: `your Otp is : <b>${otp}</b>`, 
+  });
+
+
+        if(info){
+        console.log("OTP sent successfully");
+
+        req.session.v_otp = {otp,email:req.body.email}
+        return res.redirect("/forgotpass")
+
+        }else{
+            console.log("OTP not sent cvbcb");
+            return res.redirect("/")
+        }
+            } 
+        }else{
+        console.log("OTP not sent 34");
+
+            return res.redirect("/")
+        }
+    } catch (error) {
+        console.log("OTP not sent 12");
+        console.log(error)
+        return res.redirect("/forgotpass")
+    }
+}
+
+
+const otp = (req,res)=>{
+    try {
+        res.render("otp")
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+module.exports = {otp,forgotpassword,forgotpass,changepassword,changepass,home,tables,profile,signin,signup,insertData,deleteUser,updateUser,updatedata,signindata,logout,myinfo}
 
